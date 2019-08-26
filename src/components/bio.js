@@ -52,7 +52,7 @@ const Bio = () => {
         imgStyle={{ borderRadius: `50%` }}
       />
       <p>
-        A blog by <strong>{author}</strong> <small>🇩🇴</small>.
+        A blog by <strong>{author}</strong> <small><span role="img" aria-label="Dominican">🇩🇴</span></small>.
         <p>On the daily life of a Software Engineer.</p>
       </p>
     </div>
