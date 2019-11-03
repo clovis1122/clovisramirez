@@ -51,8 +51,8 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
-# dotenv environment variables file
-.env
+# dotenv environment variable files
+.env*
 
 # gatsby files
 .cache/
@@ -67,8 +67,3 @@ yarn-error.log
 .pnp.js
 # Yarn Integrity file
 .yarn-integrity
-
-ns-1141.awsdns-14.org
-ns-1769.awsdns-29.co.uk
-ns-629.awsdns-14.net
-ns-78.awsdns-09.com

@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react"
 import { graphql } from "gatsby"
 
-import Layout from "../../components/layout"
-import SEO from "../../components/seo"
+import Layout from "gatsby-theme-blog/src/components/layout"
+import SEO from "gatsby-theme-blog/src/components/seo"
 
 const ExtraHours = ({ data, location }) => {
 
