@@ -18,7 +18,7 @@ const ExtraHours = ({ data, location }) => {
       return setError("No token!");
     }
 
-    fetch(`https://extrahours-by8cfgt96.now.sh/api?token=${token}`)
+    fetch(`https://extrahours.now.sh/api?token=${token}`)
       .then(resp => resp.text())
       .then(resp => setReport(resp))
       .catch(err => setError(err.message));
