@@ -18,9 +18,9 @@ const ExtraHours = ({ data, location }) => {
       return setError("No token!");
     }
 
-    fetch(`https://pcfdcjhk31.execute-api.us-east-1.amazonaws.com/dev/extrahours?token=${token}`)
-      .then(resp => resp.json())
-      .then(resp => setReport(resp.data))
+    fetch(`https://extrahours-by8cfgt96.now.sh/api?token=${token}`)
+      .then(resp => resp.text())
+      .then(resp => setReport(resp))
       .catch(err => setError(err.message));
   }
 
