@@ -1,6 +1,6 @@
 export const site = {
   title: "Engineering",
-  author: "Clovis Ram\u00edrez",
+  author: "Clovis Ramírez",
   description: "A personal blog dedicated to the daily life of a Software Engineer.",
   siteUrl: "https://clovisramirez.com",
   social: [

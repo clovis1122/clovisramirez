@@ -3,7 +3,7 @@ import { site } from "../config/site";
 ---
 <footer class="footer text-foreground">
   {site.social.map((platform, index) => (
-    <span>
+    <span class="item">
       <a href={platform.url} target="_blank" rel="noopener noreferrer">
         {platform.name}
       </a>
@@ -14,11 +14,25 @@ import { site } from "../config/site";
 
 <style>
   .footer {
-    margin-top: 56px;
-    padding-top: 24px;
+    margin-top: 96px;
+    padding-bottom: 38px;
+    line-height: 1.45;
+  }
+
+  .item {
+    white-space: nowrap;
   }
 
   .footer a {
-    text-decoration: none;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .footer {
+      margin-top: 72px;
+      padding-bottom: 28px;
+    }
   }
 </style>

@@ -7,11 +7,33 @@ import { site } from "../config/site";
       <a href="/">{site.title}</a>
     </h1>
     <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Toggle dark mode">
-      <span class="toggle-bg">
-        <span class="toggle-knob">
-          <span class="icon moon" aria-hidden="true">🌙</span>
-          <span class="icon sun" aria-hidden="true">☀️</span>
+      <span class="react-switch-bg" aria-hidden="true">
+        <span class="react-switch-icon moon-icon">
+          <svg viewBox="0 0 24 24" role="presentation" aria-hidden="true">
+            <path
+              d="M21 12.79A9 9 0 1 1 11.21 3A7 7 0 0 0 21 12.79z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
         </span>
+        <span class="react-switch-icon sun-icon">
+          <svg viewBox="0 0 24 24" role="presentation" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"></circle>
+            <line x1="12" y1="2" x2="12" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="12" y1="19" x2="12" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="2" y1="12" x2="5" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="19" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="4.93" y1="4.93" x2="7.05" y2="7.05" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="16.95" y1="16.95" x2="19.07" y2="19.07" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="16.95" y1="7.05" x2="19.07" y2="4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="4.93" y1="19.07" x2="7.05" y2="16.95" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+          </svg>
+        </span>
+        <span class="react-switch-handle"></span>
       </span>
     </button>
   </div>
@@ -22,11 +44,10 @@ import { site } from "../config/site";
 
 <style>
   .site-header {
-    margin-bottom: 112px;
+    margin-bottom: 122px;
   }
 
   .header-row {
-    margin-top: 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -38,12 +59,13 @@ import { site } from "../config/site";
   }
 
   .site-title {
-    font-family: "Montserrat", sans-serif;
-    font-size: 28px;
+    font-family: "Nunito", sans-serif;
+    font-size: 56px;
     font-weight: 900;
     text-decoration: none;
-    line-height: 30px;
+    line-height: 1.05;
     margin: 0;
+    letter-spacing: -0.04em;
   }
 
   .site-title a {
@@ -51,57 +73,94 @@ import { site } from "../config/site";
   }
 
   .theme-toggle {
-    border: none;
+    margin: 0;
+    border: 0;
     background: transparent;
-    padding: 0;
     cursor: pointer;
-  }
-
-  .toggle-bg {
-    width: 48px;
-    height: 24px;
-    border-radius: 12px;
-    background: var(--toggle-bg);
-    display: inline-flex;
-    align-items: center;
     position: relative;
-    transition: background 0.25s ease;
+    padding: 0;
   }
 
-  .toggle-knob {
-    width: 24px;
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .react-switch-bg {
     height: 24px;
+    width: 48px;
+    margin: 0;
+    position: relative;
+    display: block;
+    background: var(--toggle-bg);
     border-radius: 12px;
-    background: var(--toggle-knob);
+    transition: background 0.25s;
+  }
+
+  .react-switch-icon {
+    height: 24px;
+    width: 25px;
+    position: absolute;
+    top: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
+  }
+
+  .react-switch-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+  }
+
+  .moon-icon {
     left: 0;
-    transition: transform 0.25s ease;
+    opacity: 0;
+    color: #f0da75;
   }
 
-  .icon {
-    font-size: 12px;
-    line-height: 1;
+  .sun-icon {
+    right: 0;
+    opacity: 1;
+    color: #f1bb5f;
+  }
+
+  .react-switch-handle {
     position: absolute;
-    opacity: 0;
-    transition: opacity 0.2s ease;
+    top: 1px;
+    left: 1px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--toggle-knob);
+    transform: translateX(0);
+    transition: transform 0.25s ease;
+    box-shadow:
+      rgb(0 35 11 / 20%) 0 0 2px,
+      rgb(0 0 0 / 20%) 0 1px 2px;
   }
 
-  .moon {
+  :global([data-theme="dark"]) .react-switch-handle {
+    transform: translateX(28px);
+  }
+
+  :global([data-theme="dark"]) .moon-icon {
     opacity: 1;
   }
 
-  :global([data-theme="dark"]) .toggle-knob {
-    transform: translateX(24px);
-  }
-
-  :global([data-theme="dark"]) .moon {
+  :global([data-theme="dark"]) .sun-icon {
     opacity: 0;
   }
 
-  :global([data-theme="dark"]) .sun {
-    opacity: 1;
+  @media (max-width: 768px) {
+    .site-header {
+      margin-bottom: 92px;
+    }
+
+    .site-title {
+      font-size: 44px;
+    }
   }
 </style>

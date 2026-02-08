@@ -28,18 +28,17 @@ const canonical = canonicalOverride ?? new URL(Astro.url.pathname, site.siteUrl)
       (() => {
         try {
           const saved = localStorage.getItem("theme");
-          const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-          const theme = saved || (prefersDark ? "dark" : "light");
+          const theme = saved === "light" || saved === "dark" ? saved : "dark";
           document.documentElement.dataset.theme = theme;
         } catch (e) {
-          document.documentElement.dataset.theme = "light";
+          document.documentElement.dataset.theme = "dark";
         }
       })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Montserrat:wght@800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Nunito:wght@800;900&display=swap"
       rel="stylesheet"
     />
     <link rel="icon" href="/favicon.ico" />
@@ -88,19 +87,6 @@ const canonical = canonicalOverride ?? new URL(Astro.url.pathname, site.siteUrl)
           setTheme(next, true);
         });
 
-        let saved = null;
-        try {
-          saved = localStorage.getItem(STORAGE_KEY);
-        } catch (e) {
-          saved = null;
-        }
-
-        const media = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
-        if (!saved && media && media.addEventListener) {
-          media.addEventListener("change", (event) => {
-            setTheme(event.matches ? "dark" : "light", false);
-          });
-        }
       })();
     </script>
   </body>
@@ -108,36 +94,45 @@ const canonical = canonicalOverride ?? new URL(Astro.url.pathname, site.siteUrl)
 
 <style>
   :global(:root) {
-    --background: oklab(1 0 0);
-    --foreground: oklab(0.2534 0.0068 -0.0135);
-    --muted-foreground: oklab(0.2534 0.0068 -0.0135);
-    --border: oklab(0 0 0 / 0.2);
-    --card: oklab(1 0 0);
-    --card-foreground: oklab(0.2534 0.0068 -0.0135);
-    --accent: oklab(0.4403 0.0882 -0.1339);
-    --accent-foreground: oklab(1 0 0);
-    --toggle-bg: oklab(0 0 0);
-    --toggle-knob: oklab(1 0 0);
+    --background: #f4f0e7;
+    --foreground: #1f2131;
+    --muted-foreground: #1f2131;
+    --border: rgb(18 20 30 / 0.2);
+    --card: transparent;
+    --card-foreground: #1f2131;
+    --accent: #6a4f89;
+    --accent-strong: #7a5c9d;
+    --accent-foreground: #fff;
+    --toggle-bg: #d4d4d4;
+    --toggle-knob: #fff;
+    --toggle-icon: #d9b55e;
+    --link-hover: #1f2131;
   }
 
   :global([data-theme="dark"]) {
-    --background: oklab(0.18 0 0);
-    --foreground: oklab(1 0 0 / 0.86);
-    --muted-foreground: oklab(1 0 0 / 0.86);
-    --border: oklab(1 0 0 / 0.2);
-    --card: oklab(0.23 0 0);
-    --card-foreground: oklab(1 0 0 / 0.86);
-    --accent: oklab(0.8302 0.0502 -0.0508);
-    --accent-foreground: oklab(0 0 0);
-    --toggle-bg: oklab(1 0 0);
-    --toggle-knob: oklab(0 0 0);
+    --background: #1d1d2b;
+    --foreground: #ece8f5;
+    --muted-foreground: #ece8f5;
+    --border: rgb(255 255 255 / 0.16);
+    --card: transparent;
+    --card-foreground: #ece8f5;
+    --accent: #ceb4ef;
+    --accent-strong: #ceb4ef;
+    --accent-foreground: #1b1b29;
+    --toggle-bg: #000;
+    --toggle-knob: #fff;
+    --toggle-icon: #f0da75;
+    --link-hover: #fff;
   }
 
   :global(body) {
     margin: 0;
     font-family: "Merriweather", "Georgia", serif;
+    font-size: 19px;
     color: var(--foreground);
-    background: var(--background);
+    background:
+      radial-gradient(1000px 320px at 15% -10%, rgb(176 134 222 / 0.18), transparent 50%),
+      var(--background);
   }
 
   :global(html),
@@ -151,13 +146,13 @@ const canonical = canonicalOverride ?? new URL(Astro.url.pathname, site.siteUrl)
   }
 
   :global(a:hover) {
-    color: var(--foreground);
+    color: var(--link-hover);
   }
 
   .page {
-    max-width: 672px;
+    max-width: 860px;
     margin: 0 auto;
-    padding: 48px 24px 0;
+    padding: 34px 36px 0;
   }
 
   .content {
@@ -166,24 +161,24 @@ const canonical = canonicalOverride ?? new URL(Astro.url.pathname, site.siteUrl)
 
   :global(h1),
   :global(h2) {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Nunito", sans-serif;
     font-weight: 900;
     margin: 0 0 7px;
     color: var(--foreground);
   }
 
   :global(h1) {
-    font-size: 28px;
-    line-height: 30px;
+    font-size: 48px;
+    line-height: 1.05;
   }
 
   :global(h2) {
     font-size: 28px;
-    line-height: 30px;
+    line-height: 1.2;
   }
 
   :global(p) {
-    line-height: 28px;
+    line-height: 1.55;
     margin: 0 0 28px;
   }
 
@@ -217,5 +212,23 @@ const canonical = canonicalOverride ?? new URL(Astro.url.pathname, site.siteUrl)
 
   :global(.text-accent-foreground) {
     color: var(--accent-foreground);
+  }
+
+  @media (max-width: 768px) {
+    :global(body) {
+      font-size: 18px;
+    }
+
+    .page {
+      padding: 24px 20px 0;
+    }
+
+    :global(h1) {
+      font-size: 40px;
+    }
+
+    :global(h2) {
+      font-size: 35px;
+    }
   }
 </style>
