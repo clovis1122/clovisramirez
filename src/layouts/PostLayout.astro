@@ -1,0 +1,68 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Bio from "../components/Bio.astro";
+import { formatDate } from "../utils/dates";
+
+const { title, description, date, prev, next } = Astro.props;
+const formattedDate = date ? formatDate(date) : "";
+---
+<BaseLayout title={title} description={description}>
+  <article class="post">
+    <header>
+      <h1>{title}</h1>
+      {formattedDate && <p class="date">{formattedDate}</p>}
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+  <div class="post-footer">
+    <hr />
+    <Bio />
+    <nav class="post-nav">
+      {prev && (
+        <a href={`/posts/${prev.slug}/`}>← {prev.data.title}</a>
+      )}
+      {next && (
+        <a class="next" href={`/posts/${next.slug}/`}>{next.data.title} →</a>
+      )}
+    </nav>
+  </div>
+</BaseLayout>
+
+<style>
+  .date {
+    margin-bottom: 28px;
+  }
+
+  .prose :global(p) {
+    line-height: 28px;
+    margin-bottom: 28px;
+  }
+
+  .prose :global(img) {
+    max-width: 100%;
+  }
+
+  .post-footer hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0 24px;
+  }
+
+  .post-nav {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .post-nav a {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+  }
+
+  .post-nav .next {
+    margin-left: auto;
+  }
+</style>

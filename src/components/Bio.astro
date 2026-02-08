@@ -1,0 +1,32 @@
+---
+import { site } from "../config/site";
+---
+<div class="bio text-foreground">
+  <img src="/assets/avatar.png" alt={site.author} width="48" height="48" loading="lazy" />
+  <span>
+    A blog by <strong>{site.author}</strong>{" "}
+    <small>
+      <span role="img" aria-label="Dominican">🇩🇴</span>
+    </small>
+    <br /><span>On the daily life of a Software Engineer.</span>
+  </span>
+</div>
+
+<style>
+  .bio {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin: 16px 0 0;
+  }
+
+  .bio img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+  }
+
+  .bio small {
+    margin-left: 4px;
+  }
+</style>

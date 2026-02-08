@@ -1,0 +1,221 @@
+---
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { site } from "../config/site";
+
+const { title = "", description = "", canonical: canonicalOverride } = Astro.props;
+
+const pageTitle = title ? `${title} | ${site.title}` : site.title;
+const pageDescription = description ?? site.description;
+const canonical = canonicalOverride ?? new URL(Astro.url.pathname, site.siteUrl).toString();
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
+    <title>{pageTitle}</title>
+    <meta property="og:site_name" content={site.title} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem("theme");
+          const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const theme = saved || (prefersDark ? "dark" : "light");
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Montserrat:wght@800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/favicon.ico" />
+  </head>
+  <body>
+    <div class="page">
+      <Header>
+        <slot name="header-extra" />
+      </Header>
+      <main class="content">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+    <script is:inline>
+      (() => {
+        const STORAGE_KEY = "theme";
+        const root = document.documentElement;
+        const button = document.querySelector("[data-theme-toggle]");
+
+        if (!button) {
+          return;
+        }
+
+        const updateButton = () => {
+          const isDark = root.dataset.theme === "dark";
+          button.setAttribute("aria-pressed", String(isDark));
+          button.setAttribute("aria-label", isDark ? "Toggle light mode" : "Toggle dark mode");
+        };
+
+        const setTheme = (theme, persist) => {
+          root.dataset.theme = theme;
+          if (persist) {
+            try {
+              localStorage.setItem(STORAGE_KEY, theme);
+            } catch (e) {
+              // ignore storage errors
+            }
+          }
+          updateButton();
+        };
+
+        updateButton();
+        button.addEventListener("click", () => {
+          const next = root.dataset.theme === "dark" ? "light" : "dark";
+          setTheme(next, true);
+        });
+
+        let saved = null;
+        try {
+          saved = localStorage.getItem(STORAGE_KEY);
+        } catch (e) {
+          saved = null;
+        }
+
+        const media = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+        if (!saved && media && media.addEventListener) {
+          media.addEventListener("change", (event) => {
+            setTheme(event.matches ? "dark" : "light", false);
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
+
+<style>
+  :global(:root) {
+    --background: oklab(1 0 0);
+    --foreground: oklab(0.2534 0.0068 -0.0135);
+    --muted-foreground: oklab(0.2534 0.0068 -0.0135);
+    --border: oklab(0 0 0 / 0.2);
+    --card: oklab(1 0 0);
+    --card-foreground: oklab(0.2534 0.0068 -0.0135);
+    --accent: oklab(0.4403 0.0882 -0.1339);
+    --accent-foreground: oklab(1 0 0);
+    --toggle-bg: oklab(0 0 0);
+    --toggle-knob: oklab(1 0 0);
+  }
+
+  :global([data-theme="dark"]) {
+    --background: oklab(0.18 0 0);
+    --foreground: oklab(1 0 0 / 0.86);
+    --muted-foreground: oklab(1 0 0 / 0.86);
+    --border: oklab(1 0 0 / 0.2);
+    --card: oklab(0.23 0 0);
+    --card-foreground: oklab(1 0 0 / 0.86);
+    --accent: oklab(0.8302 0.0502 -0.0508);
+    --accent-foreground: oklab(0 0 0);
+    --toggle-bg: oklab(1 0 0);
+    --toggle-knob: oklab(0 0 0);
+  }
+
+  :global(body) {
+    margin: 0;
+    font-family: "Merriweather", "Georgia", serif;
+    color: var(--foreground);
+    background: var(--background);
+  }
+
+  :global(html),
+  :global(body) {
+    overflow-x: hidden;
+  }
+
+  :global(a) {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  :global(a:hover) {
+    color: var(--foreground);
+  }
+
+  .page {
+    max-width: 672px;
+    margin: 0 auto;
+    padding: 48px 24px 0;
+  }
+
+  .content {
+    min-height: auto;
+  }
+
+  :global(h1),
+  :global(h2) {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+    margin: 0 0 7px;
+    color: var(--foreground);
+  }
+
+  :global(h1) {
+    font-size: 28px;
+    line-height: 30px;
+  }
+
+  :global(h2) {
+    font-size: 28px;
+    line-height: 30px;
+  }
+
+  :global(p) {
+    line-height: 28px;
+    margin: 0 0 28px;
+  }
+
+  :global(.bg-background) {
+    background: var(--background);
+  }
+
+  :global(.text-foreground) {
+    color: var(--foreground);
+  }
+
+  :global(.text-muted) {
+    color: var(--muted-foreground);
+  }
+
+  :global(.border-default) {
+    border-color: var(--border);
+  }
+
+  :global(.bg-card) {
+    background: var(--card);
+  }
+
+  :global(.text-card-foreground) {
+    color: var(--card-foreground);
+  }
+
+  :global(.bg-accent) {
+    background: var(--accent);
+  }
+
+  :global(.text-accent-foreground) {
+    color: var(--accent-foreground);
+  }
+</style>

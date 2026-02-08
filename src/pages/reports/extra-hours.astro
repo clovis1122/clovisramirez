@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ExtraHoursForm from "../../components/ExtraHoursForm.jsx";
+---
+<BaseLayout title="Extra Hours!">
+  <h1>Extra Hours</h1>
+  <p>A simple app to generate the extra hours report.</p>
+  <ExtraHoursForm client:load />
+</BaseLayout>

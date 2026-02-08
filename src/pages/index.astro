@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Bio from "../components/Bio.astro";
+import { formatDate } from "../utils/dates";
+
+const posts = (await getCollection("posts")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+<BaseLayout>
+  <Bio slot="header-extra" />
+  <section class="posts">
+    {posts.map((post) => (
+      <article class="post-card">
+        <h2>
+          <a href={`/posts/${post.slug}/`}>{post.data.title}</a>
+        </h2>
+        <p class="date text-muted">{formatDate(post.data.date)}</p>
+        <p>{post.data.description}</p>
+      </article>
+    ))}
+  </section>
+</BaseLayout>
+
+<style>
+  .posts {
+    display: grid;
+    gap: 35px;
+  }
+
+  .post-card {
+    padding: 0;
+  }
+
+  .post-card a {
+    text-decoration: none;
+  }
+
+  .date {
+    margin-bottom: 4px;
+  }
+
+  .post-card p {
+    margin-top: 0;
+  }
+</style>

@@ -1,0 +1,24 @@
+---
+import { site } from "../config/site";
+---
+<footer class="footer text-foreground">
+  {site.social.map((platform, index) => (
+    <span>
+      <a href={platform.url} target="_blank" rel="noopener noreferrer">
+        {platform.name}
+      </a>
+      {index < site.social.length - 1 ? " • " : ""}
+    </span>
+  ))}
+</footer>
+
+<style>
+  .footer {
+    margin-top: 56px;
+    padding-top: 24px;
+  }
+
+  .footer a {
+    text-decoration: none;
+  }
+</style>

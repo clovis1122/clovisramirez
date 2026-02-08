@@ -1,0 +1,107 @@
+---
+import { site } from "../config/site";
+---
+<header class="site-header">
+  <div class="header-row">
+    <h1 class="site-title">
+      <a href="/">{site.title}</a>
+    </h1>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Toggle dark mode">
+      <span class="toggle-bg">
+        <span class="toggle-knob">
+          <span class="icon moon" aria-hidden="true">🌙</span>
+          <span class="icon sun" aria-hidden="true">☀️</span>
+        </span>
+      </span>
+    </button>
+  </div>
+  <div class="header-extra">
+    <slot />
+  </div>
+</header>
+
+<style>
+  .site-header {
+    margin-bottom: 112px;
+  }
+
+  .header-row {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .header-extra {
+    display: block;
+  }
+
+  .site-title {
+    font-family: "Montserrat", sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    text-decoration: none;
+    line-height: 30px;
+    margin: 0;
+  }
+
+  .site-title a {
+    color: inherit;
+  }
+
+  .theme-toggle {
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .toggle-bg {
+    width: 48px;
+    height: 24px;
+    border-radius: 12px;
+    background: var(--toggle-bg);
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    transition: background 0.25s ease;
+  }
+
+  .toggle-knob {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: var(--toggle-knob);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    transition: transform 0.25s ease;
+  }
+
+  .icon {
+    font-size: 12px;
+    line-height: 1;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .moon {
+    opacity: 1;
+  }
+
+  :global([data-theme="dark"]) .toggle-knob {
+    transform: translateX(24px);
+  }
+
+  :global([data-theme="dark"]) .moon {
+    opacity: 0;
+  }
+
+  :global([data-theme="dark"]) .sun {
+    opacity: 1;
+  }
+</style>
