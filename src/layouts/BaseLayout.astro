@@ -140,6 +140,10 @@ const canonical = canonicalOverride ?? new URL(Astro.url.pathname, site.siteUrl)
     overflow-x: hidden;
   }
 
+  :global(html) {
+    height: 100%;
+  }
+
   :global(a) {
     color: var(--accent);
     text-decoration: none;

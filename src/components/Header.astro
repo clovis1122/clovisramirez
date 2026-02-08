@@ -44,7 +44,7 @@ import { site } from "../config/site";
 
 <style>
   .site-header {
-    margin-bottom: 122px;
+    margin-bottom: clamp(72px, 12vh, 122px);
   }
 
   .header-row {
@@ -156,11 +156,17 @@ import { site } from "../config/site";
 
   @media (max-width: 768px) {
     .site-header {
-      margin-bottom: 92px;
+      margin-bottom: clamp(56px, 10vh, 92px);
     }
 
     .site-title {
       font-size: 44px;
+    }
+  }
+
+  @media (max-height: 760px) {
+    .site-header {
+      margin-bottom: 72px;
     }
   }
 </style>

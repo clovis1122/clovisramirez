@@ -14,8 +14,8 @@ import { site } from "../config/site";
 
 <style>
   .footer {
-    margin-top: 96px;
-    padding-bottom: 38px;
+    margin-top: clamp(56px, 10vh, 96px);
+    padding-bottom: clamp(20px, 5vh, 38px);
     line-height: 1.45;
   }
 
@@ -31,8 +31,15 @@ import { site } from "../config/site";
 
   @media (max-width: 768px) {
     .footer {
-      margin-top: 72px;
-      padding-bottom: 28px;
+      margin-top: clamp(44px, 8vh, 72px);
+      padding-bottom: clamp(18px, 5vh, 28px);
+    }
+  }
+
+  @media (max-height: 760px) {
+    .footer {
+      margin-top: 56px;
+      padding-bottom: 24px;
     }
   }
 </style>
