@@ -8,29 +8,8 @@ import { formatDate } from "../utils/dates";
 type PostEntry = CollectionEntry<"posts">;
 
 const posts = (await getCollection("posts")).sort(
-  (a: PostEntry, b: PostEntry) => b.data.date.getTime() - a.data.date.getTime()
+  (a: PostEntry, b: PostEntry) => b.data.date.localeCompare(a.data.date)
 );
-
-const getExcerpt = (body: string, maxLength = 150) => {
-  const plainText = body
-    .replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-    .replace(/`([^`]+)`/g, "$1")
-    .replace(/[*_~>#]/g, "")
-    .replace(/\n+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-
-  if (plainText.length <= maxLength) {
-    return plainText;
-  }
-
-  const softCut = plainText.slice(0, maxLength);
-  const lastSpaceIndex = softCut.lastIndexOf(" ");
-  const safeCut = lastSpaceIndex > 0 ? softCut.slice(0, lastSpaceIndex) : softCut;
-
-  return `${safeCut.trimEnd()}...`;
-};
 ---
 <BaseLayout>
   <Bio slot="header-extra" />
@@ -41,7 +20,7 @@ const getExcerpt = (body: string, maxLength = 150) => {
           <a href={`/posts/${post.slug}/`}>{post.data.title}</a>
         </h2>
         <p class="date text-muted">{formatDate(post.data.date)}</p>
-        <p class="excerpt">{getExcerpt(post.body, 120)}</p>
+        <p class="excerpt">{post.data.description}</p>
       </article>
     ))}
   </section>

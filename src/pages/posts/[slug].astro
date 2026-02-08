@@ -13,7 +13,7 @@ interface Props {
 
 export async function getStaticPaths() {
   const posts = (await getCollection("posts")).sort(
-    (a: PostEntry, b: PostEntry) => b.data.date.getTime() - a.data.date.getTime()
+    (a: PostEntry, b: PostEntry) => b.data.date.localeCompare(a.data.date)
   );
   return posts.map((post: PostEntry, index: number) => ({
     params: { slug: post.slug },

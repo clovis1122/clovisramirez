@@ -36,18 +36,39 @@ const formattedDate = date ? formatDate(date) : "";
   }
 
   .prose :global(p) {
-    line-height: 28px;
-    margin-bottom: 28px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+
+  .prose :global(h2) {
+    margin-top: 60px;
+    margin-bottom: 14px;
+  }
+
+  .prose :global(h3) {
+    margin-top: 60px;
+    margin-bottom: 12px;
+  }
+
+  .prose :global(h4) {
+    margin-top: 60px;
+    margin-bottom: 10px;
   }
 
   .prose :global(img) {
     max-width: 100%;
   }
 
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid rgb(140 142 150 / 0.5);
+    margin: 64px 0 44px;
+  }
+
   .post-footer hr {
     border: none;
-    border-top: 1px solid var(--border);
-    margin: 40px 0 24px;
+    border-top: 1px solid rgb(140 142 150 / 0.5);
+    margin: 56px 0 36px;
   }
 
   .post-nav {
@@ -65,5 +86,29 @@ const formattedDate = date ? formatDate(date) : "";
 
   .post-nav .next {
     margin-left: auto;
+  }
+
+  @media (max-width: 768px) {
+    .prose :global(p) {
+      line-height: 1.65;
+    }
+
+    .prose :global(h2) {
+      margin-top: 60px;
+      margin-bottom: 12px;
+    }
+
+    .prose :global(h3) {
+      margin-top: 60px;
+      margin-bottom: 10px;
+    }
+
+    .prose :global(hr) {
+      margin: 52px 0 36px;
+    }
+
+    .post-footer hr {
+      margin: 48px 0 30px;
+    }
   }
 </style>

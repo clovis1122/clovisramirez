@@ -1,0 +1,57 @@
+---
+title: Embracing Agentic Software Development
+date: "2026-02-08"
+description: Practical notes from working at codebases with AI agents.
+---
+
+Ever since becoming a web artisan, nothing has been as disruptive to me as the era of agentic tools. More so than other industries, the speed at which Software Code is written has radically changed. The following are some of my notes regarding how I've approached these changes so far and expectations for the near future.
+
+## Agents as smarter, faster autocomplete
+
+When Copilot first launched in 2021, I eagerly joined to try it out. This was the first big difference I had in how I coded in years: write a bit, let Copilot (powered by OpenAI Codex) do the rest. As newer tools came in - most notably ChatGPT and later Cursor, I quickly adapted to the trend. I thought of these models as glorified autocomplete: given some context, it predicts the next token. This is great for asissted coding, and humans remain in control.
+
+And yet, our beloved autocomplete became more capable than simply predicting the next line of code. We began to see tool calls in 2023, and MCPs in late 2024. The agents could now run scripts, navigate using web browsers, and search on the internet. It took me time to adapt, but the lesson was clear: Agents are not "just LLMs" that autocomplete code. Leveraging the best of agentic coding required me to change my mindset once again.
+
+## Agents as programming partners
+
+Acknowledging the latest advances in tech, I changed the way I think about this once more.
+
+My cursor IDE would be a partner, and my goal would be to make it as productive as me. I would do my best to encode architectural decisions, conventions, standards and codebase quirks in my `.cursor` folder. I would first take a stab at problems using an Agent, as a start, and take over to finish the work. I would connect it to Playwright, context7, and have it validate its work. I would steer it into "looking at these files" or "changing this specific file", which it did.
+
+I often needed to take over. Despite models becoming increasingly more powerful, they would sometimes struggle with programming syntax. Sometimes, my `.cursor` rules would be ignored or not properly used. Having to maintain the codebase for both myself and the Agent made me lazy: I would document more code-specific things and handle the rest myself. For example, I would create commits and open PRs.
+
+Around mid 2025, Claude Code started to gain traction. I tried it out for a few months, but was not impressed. The constant need to "correct" the models, together with sometimes-better-but-still-comparable output with Cursor (that could also use claude models) made it awkward. Every time I corrected it, it would come back with "*You're absolutely right!* " on what later became an internet meme. Having to switch between running my server commands and claude on a small terminal felt too much of a switch to me. The context window was also an issue. All that said, when it did work, it allowed me to complete work significantly faster than using Cursor. Code retrievals, in particular, were pretty good.
+
+But when it miss, it missed. Here's another lesson: agents do better when you design your codebase around them. They do great using `shadcn` for creating UIs. They don't perform well with `.slim` templates. There was this internal design library I struggled to get agents working with - as it was closed source, the model was not trained to use it properly.
+
+## Agents as Codebase Owners
+
+As time went by, I became obsessed with "100% AI-Generated code". I had switched to Cursor+Codex IDE extension and integrated even more MCPs to offload work: my agent was now going to Jira, fetching tickets, and completing the work on a new branch. I began connecting my agent to everything via MCP, REST API, or CLI. My workflow was nearly fully automated.
+
+This is where I began to hit a wall: in two of the projects I worked with, I struggled to convince management to go along with my agenda. I got comments like:
+
+- *You want to replace human code review with AI? That doesn't work. We know it doesn't, having code reviews is best practice*.
+
+- *I would mandate this if I saw the value, but AI seems to struggle in legacy codebases*.
+
+- *That isn't possible. We're not there, **yet***.
+
+Despite the setbacks, I kept pushing for adoption and showcasing my workflow through internal demos. I continue adjusting my `AGENTS.md` file to make things easier for agents. The new target wasn't 100% generated code, but also solving it with a single-prompt. Keeping the agent running for longer.
+
+As the agent did more and more, sometimes, I would run into troubles related to my current setup. Things I need for Development Experience, not necessarily for agentic setup. I noted that the Codex IDE extension was suboptimal with fewer features and more bugs than Codex CLI, that I don't use cursor that much, and that `.devcontainer` may not be that useful compared to the troubles it had when paired with cursor. All my agent needed was the terminal, and yet, I was still trying to maintain a development experience for my older self - my legacy self.
+
+The last straw came when configuring Github CLI with Codex inside devcontainer to open pull requests (as the MCP did not have this). After a few hours, I got this working through a PAT exposed as a `.env` that would be read and loaded by devcontainer. I realized something needed to change. The next weekend, I bid cursor farewell. I realized only one of us is working on this codebase: Codex.
+
+---
+
+Fast forward a few months, and I feel the most productive I've ever been. In my day to day, I'm opening my terminal, typing `codex`, and using it as an entrypoint for my next action. Sometimes, I'd have one to three terminals doing different work with `git worktree`. I'd also have Codex working across git boundaries doing all sort of seemingly dangerous work, from `terraform apply -auto-approve` to `aws` commands to verify and optimize my infrastructure. I use an allow list to restrict what it can do - more importantly, I adapt my projects to support an agentic process by default.
+
+Working this way has taught me all sort of intricacies regarding codex. From it's escalation system and `snap-confine`, subagent support, it's preferences to use python and how little it uses the `plan_tool`. Likewise, I've learn tons of general agentic development principles regarding context management, custom commands (now skills), techniques to keep the agent doing work for longer, and specific prompts that work best.
+
+## The future of Software Development in the era of AI Agents
+
+Ever since the first computer, we've added more abstractions to help us manage complexity. From electrical currents, magnetic disks, low-level and high-level programming languages, I believe the abstractions will continue. I do not think the new wave of tools will make hand-crafting code obsolete, but it will certainly be delegated to specialized use cases.
+
+The knowledge required to hardness agents will develop similarly to how it developed for any programming language. Newcomers will be adept at using one or few agents. Seniors will know how to orchestrate a team. Connecting tools to agents and managing their context to get the best results with fewer tokens will be used as a measurement of SWE Skill.
+
+It is not a matter of **if**, but **when**.
