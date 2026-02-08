@@ -1,8 +1,10 @@
 ---
+import { Image } from "astro:assets";
+import avatarImage from "../assets/avatar.png";
 import { site } from "../config/site";
 ---
 <div class="bio text-foreground">
-  <img src="/assets/avatar.png" alt={site.author} width="48" height="48" loading="lazy" />
+  <Image src={avatarImage} alt={site.author} width={48} height={48} loading="lazy" />
   <p class="bio-text">
     A blog by <strong>{site.author}</strong> <small class="country">DO</small>
     <br />

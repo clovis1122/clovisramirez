@@ -1,11 +1,14 @@
 ---
 import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Bio from "../components/Bio.astro";
 import { formatDate } from "../utils/dates";
 
+type PostEntry = CollectionEntry<"posts">;
+
 const posts = (await getCollection("posts")).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+  (a: PostEntry, b: PostEntry) => b.data.date.getTime() - a.data.date.getTime()
 );
 
 const getExcerpt = (body: string, maxLength = 150) => {
@@ -32,7 +35,7 @@ const getExcerpt = (body: string, maxLength = 150) => {
 <BaseLayout>
   <Bio slot="header-extra" />
   <section class="posts">
-    {posts.map((post) => (
+    {posts.map((post: PostEntry) => (
       <article class="post-card">
         <h2>
           <a href={`/posts/${post.slug}/`}>{post.data.title}</a>
